@@ -2,6 +2,11 @@
 
 ![kubernetes Architecture](https://www.aquasec.com/wp-content/uploads/2020/11/Kubernetes-101-Architecture-Diagram.jpg)
 
+-kubectl client use yaml -> send API server -> convert json -> store ECTD (database config of K8S )
+-controller-manager call to etcd -> check and update new resources
+-kubelet in worker will collect info -> API server -> scheduler (caculator) -> API -> controller-manager -> API -> provisioning kubelet -> API -> store info into etcd
+-kube-proxy will be interacting to outside
+
 ## Control/Master Node Components:
 - kube-apiserver
 - etcd
