@@ -1,0 +1,17 @@
+yum install -y nfs-utils
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl start nfs-utils
+systemctl enable nfs-utils
+systemctl start nfs-server
+systemctl enable nfs-server
+
+#Grant pessmisions mounted folder
+chmod 666 /folder
+
+#Configure exports https://rudimartinsen.com/2022/01/05/nginx-nfs-kubernetes/
+/folder  /range_of_ip(permissions)
+
+exportfs -ar
+
+exportfs -v
