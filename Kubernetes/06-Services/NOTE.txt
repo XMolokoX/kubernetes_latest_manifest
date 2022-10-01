@@ -24,4 +24,7 @@ curl -v headless-service
 root@controlplane:~# kubectl create -f services/nodeport.yaml 
 The Service "my-nginx" is invalid: spec.ports[0].nodePort: Invalid value: 24000: provided port is not in the valid range. The range of valid ports is 30000-32767
 root@controlplane:~# 
+
+
+service call pod/deployment through app name
 ```
