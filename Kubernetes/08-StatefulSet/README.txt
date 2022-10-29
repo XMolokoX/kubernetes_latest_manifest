@@ -13,3 +13,9 @@ A records for any Endpoints that share a name with the Service, for all other ty
 
 CLI:
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#run
+
+
+-deployment is a resources to deploy a stateless app , if use a pvc , all replicas will use the same volume and dont have its own state
+-Statefulsets is used for stateful app , each replica of pods will have its own state and using its own volume 
+-stateless : the interaction from backend with client will not be saved 
+-statefull : the interaction from backend with client need to be saved
