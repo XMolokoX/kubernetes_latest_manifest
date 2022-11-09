@@ -46,4 +46,5 @@ spec:
 ...
 ++
 
-
+=====> ServiceAccount will help you dont need to attach secret to yaml many times if you use default SA in namespace.
+=====> You can create many SA and use it if u want
