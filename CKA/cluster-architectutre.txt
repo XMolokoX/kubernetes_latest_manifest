@@ -2,6 +2,8 @@
 => inlcude: etcd , scheduler, controller manager , APIserver
 
 - Worker : host application as Containers
+=> inlcude : kubelet, kube-proxy CRI
+
 - ETCD cluster : database store info in a key-value format
 port 2379 by default
  
