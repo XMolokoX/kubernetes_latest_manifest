@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: eureka
+  cloud:
+    config:
+      uri: ${vcap.services.${PREFIX:}configserver.credentials.uri:http://user:password@localhost:8888}
+  profiles:
+    # dev => log console ; prod => log file to logging.path
+    active: dev
+    
+logging:
+  path: /home/logs

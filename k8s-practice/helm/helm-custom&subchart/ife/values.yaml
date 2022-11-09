@@ -1,0 +1,4 @@
+name: infra-discovery
+port: 8761
+targetport: 8761
+IP: 192.168.226.132

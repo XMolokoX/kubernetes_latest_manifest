@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    {{- include "test.label" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "test.label" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "test.label" . | indent 8 }}
+    spec:
+      containers:
+      - name: {{ .Values.name }}
+        image: localhost:31320/infra-api-manager:latest
+        imagePullPolicy: Always
+        ports:
+        - name: infra-api
+          containerPort: {{ .Values.targetport }}
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.targetport }}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.targetport }}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        envFrom:
+        - configMapRef:
+            name: ife-config
+        volumeMounts:
+        - mountPath: /home/config
+          name: config
+        - mountPath: /home/jar
+          name: jar
+      volumes:
+      - name: jar
+        hostPath:
+          # directory location on host
+          path: /home/deploy/infra-api-manager/jar
+          # this field is optional
+          type: Directory
+      - name: config
+        hostPath:
+          # directory location on host
+          path: /home/deploy/infra-api-manager/config
+          # this field is optional
+          type: Directory
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0

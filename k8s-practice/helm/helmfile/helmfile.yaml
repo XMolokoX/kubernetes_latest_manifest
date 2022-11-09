@@ -1,0 +1,10 @@
+releases:
+- name: my-release-1
+  chart: ./helloworld
+  installed: false
+  values:
+  - values.yaml.gotmpl
+
+- name: my-release-2
+  chart: ./helloworld
+  installed: false

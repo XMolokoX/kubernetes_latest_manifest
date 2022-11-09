@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ife-config
+data:
+  ############ JAVA Environment BEGIN ############
+  JAVA_OPTS: "-Xms256m -Xmx1024m"
+  ############ JAVA Environment END ############
+  ############ GGE Link Configuration BEGIN ############
+  # 1:Singapore | 3:GGE Link. Value "3" is default for Malaysia
+  SSO_CONFIGURE: "3"  
+  # Status Decrypt LoginID
+  SSO_LOGINID_DECRYPT: "false"
+  # GGELink Secret Key
+  GGELINK_SECRET_KEY: "11107voxg91upe12"
+  GGELINK_SECRET_KEY_NEW: "b78f38670216a6308cb173b24c688ed5e65031f4b18b99ff09274d8a79a694a881f6803367c092f68407d0bbd102d7d6"
+  GGELINK_CRYPTO_SALT: "8686c1d59af4ff4c17ee3e3e02c9e2f4"
+  ############ GGE Link Configuration END ############
+  PROXY_URL: "https://ife-ci.10-90-48-124.sslip.io"

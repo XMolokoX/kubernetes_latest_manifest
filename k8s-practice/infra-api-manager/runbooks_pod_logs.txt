@@ -1,0 +1,60 @@
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.2.6.RELEASE)
+2021-05-10 08:56:37.763  INFO 6 --- [           main] c.c.g.i.zuul.server.ZuulApplication      : No active profile set, falling back to default profiles: default
+2021-05-10 08:56:39.550  WARN 6 --- [           main] o.s.boot.actuate.endpoint.EndpointId     : Endpoint ID 'service-registry' contains invalid characters, please migrate to a valid format.
+2021-05-10 08:56:39.580  WARN 6 --- [           main] o.s.boot.actuate.endpoint.EndpointId     : Endpoint ID 'hystrix.stream' contains invalid characters, please migrate to a valid format.
+2021-05-10 08:56:39.825  INFO 6 --- [           main] o.s.cloud.context.scope.GenericScope     : BeanFactory id=2e0b30ec-0727-3b7d-9a19-8239737a98e7
+2021-05-10 08:56:40.752  WARN 6 --- [           main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+2021-05-10 08:56:40.792  INFO 6 --- [           main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+2021-05-10 08:56:40.792 DEBUG 6 --- [           main] o.s.web.context.ContextLoader            : Published root WebApplicationContext as ServletContext attribute with name [org.springframework.web.context.WebApplicationContext.ROOT]
+2021-05-10 08:56:40.792  INFO 6 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2997 ms
+2021-05-10 08:56:40.966  WARN 6 --- [           main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2021-05-10 08:56:40.966  INFO 6 --- [           main] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2021-05-10 08:56:40.995  INFO 6 --- [           main] c.netflix.config.DynamicPropertyFactory  : DynamicPropertyFactory is initialized with configuration sources: com.netflix.config.ConcurrentCompositeConfiguration@2e7df17d
+2021-05-10 08:56:41.764  INFO 6 --- [           main] .s.s.UserDetailsServiceAutoConfiguration : 
+Using generated security password: fd3dabe4-c38b-4750-8ff7-13dbc43d16db
+2021-05-10 08:56:41.885  INFO 6 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@144f2092, org.springframework.security.web.context.SecurityContextPersistenceFilter@5d7d6f13, org.springframework.security.web.header.HeaderWriterFilter@495f76b2, org.springframework.security.web.authentication.logout.LogoutFilter@2afc7622, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@44dc3409, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@c9806c05, org.springframework.security.web.session.SessionManagementFilter@a3f3ba7c, org.springframework.security.web.access.ExceptionTranslationFilter@1455bba4]
+2021-05-10 08:56:42.002  WARN 6 --- [           main] c.n.c.sources.URLConfigurationSource     : No URLs will be polled as dynamic configuration sources.
+2021-05-10 08:56:42.003  INFO 6 --- [           main] c.n.c.sources.URLConfigurationSource     : To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2021-05-10 08:56:42.224  INFO 6 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-05-10 08:56:42.239 DEBUG 6 --- [           main] s.w.s.m.m.a.RequestMappingHandlerAdapter : ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2021-05-10 08:56:42.306 DEBUG 6 --- [           main] s.w.s.m.m.a.RequestMappingHandlerMapping : 2 mappings in 'requestMappingHandlerMapping'
+2021-05-10 08:56:42.362 DEBUG 6 --- [           main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2021-05-10 08:56:42.378 DEBUG 6 --- [           main] .m.m.a.ExceptionHandlerExceptionResolver : ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2021-05-10 08:56:42.806  WARN 6 --- [           main] ockingLoadBalancerClientRibbonWarnLogger : You already have RibbonLoadBalancerClient on your classpath. It will be used by default. As Spring Cloud Ribbon is in maintenance mode. We recommend switching to BlockingLoadBalancerClient instead. In order to use it, set the value of `spring.cloud.loadbalancer.ribbon.enabled` to `false` or remove spring-cloud-starter-netflix-ribbon from your project.
+2021-05-10 08:56:43.712  INFO 6 --- [           main] o.s.c.n.zuul.ZuulFilterInitializer       : Starting filter initializer
+2021-05-10 08:56:43.731  INFO 6 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-05-10 08:56:43.804  INFO 6 --- [           main] o.s.c.n.eureka.InstanceInfoFactory       : Setting initial instance status as: STARTING
+2021-05-10 08:56:43.904  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Initializing Eureka in region us-east-1
+2021-05-10 08:56:44.011  INFO 6 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON encoding codec LegacyJacksonJson
+2021-05-10 08:56:44.011  INFO 6 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using JSON decoding codec LegacyJacksonJson
+2021-05-10 08:56:44.339  INFO 6 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML encoding codec XStreamXml
+2021-05-10 08:56:44.339  INFO 6 --- [           main] c.n.d.provider.DiscoveryJerseyProvider   : Using XML decoding codec XStreamXml
+2021-05-10 08:56:45.312  INFO 6 --- [           main] c.n.d.s.r.aws.ConfigClusterResolver      : Resolving eureka endpoints via configuration
+2021-05-10 08:56:45.355  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Disable delta property : false
+2021-05-10 08:56:45.355  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Single vip registry refresh property : null
+2021-05-10 08:56:45.355  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Force full registry fetch : false
+2021-05-10 08:56:45.355  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Application is null : false
+2021-05-10 08:56:45.356  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Registered Applications size is zero : true
+2021-05-10 08:56:45.356  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Application version is -1: true
+2021-05-10 08:56:45.356  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Getting all instance registry info from the eureka server
+2021-05-10 08:56:45.654  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : The response status is 200
+2021-05-10 08:56:45.659  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Starting heartbeat executor: renew interval is: 30
+2021-05-10 08:56:45.665  INFO 6 --- [           main] c.n.discovery.InstanceInfoReplicator     : InstanceInfoReplicator onDemand update allowed rate per min is 4
+2021-05-10 08:56:45.673  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Discovery Client initialized at timestamp 1620637005671 with initial instances count: 0
+2021-05-10 08:56:45.676  INFO 6 --- [           main] o.s.c.n.e.s.EurekaServiceRegistry        : Registering application API-MANAGEMENT with eureka with status UP
+2021-05-10 08:56:45.677  INFO 6 --- [           main] com.netflix.discovery.DiscoveryClient    : Saw local status change event StatusChangeEvent [timestamp=1620637005677, current=UP, previous=STARTING]
+2021-05-10 08:56:45.683  INFO 6 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-MANAGEMENT/infra-api-manager:api-management:2407: registering service...
+2021-05-10 08:56:45.722 DEBUG 6 --- [           main] o.springframework.web.filter.CorsFilter  : Filter 'corsFilter' configured for use
+2021-05-10 08:56:45.733  INFO 6 --- [           main] io.undertow                              : starting server: Undertow - 2.0.30.Final
+2021-05-10 08:56:45.770  INFO 6 --- [           main] org.xnio                                 : XNIO version 3.3.8.Final
+2021-05-10 08:56:45.833  INFO 6 --- [           main] org.xnio.nio                             : XNIO NIO Implementation Version 3.3.8.Final
+2021-05-10 08:56:45.929  INFO 6 --- [           main] o.s.b.w.e.u.UndertowServletWebServer     : Undertow started on port(s) 2407 (http) with context path ''
+2021-05-10 08:56:45.930  INFO 6 --- [           main] .s.c.n.e.s.EurekaAutoServiceRegistration : Updating port to 2407
+2021-05-10 08:56:45.939  INFO 6 --- [           main] c.c.g.i.zuul.server.ZuulApplication      : Started ZuulApplication in 9.786 seconds (JVM running for 10.314)
+2021-05-10 08:56:45.988  INFO 6 --- [nfoReplicator-0] com.netflix.discovery.DiscoveryClient    : DiscoveryClient_API-MANAGEMENT/infra-api-manager:api-management:2407 - registration status: 204

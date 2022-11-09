@@ -1,0 +1,3 @@
+minhquan/Minhquan010710
+
+https://medium.com/@pjbgf/azure-kubernetes-service-aks-pulling-private-container-images-from-azure-container-registry-acr-9c3e0a0a13f2

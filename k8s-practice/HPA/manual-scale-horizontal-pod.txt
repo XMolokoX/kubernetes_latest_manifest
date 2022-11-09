@@ -1,0 +1,24 @@
+#download metrics server 
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+#add 2 line in args :
+- --kubelet-insecure-tls=true
+- --kubelet-preferred-address-types=InternalIP
+
+#check : 
+kubectl top node ( monitor node )
+kubectl top pods  ( monitor pod )
+
+#create pods 
+
+#create hpa 
+kubectl autoscale deployment <name> --cpu-percent=50 --min=1 --max=10
+
+#check hpa
+kuebctl get hpa
+
+#check hpa via watch
+kuebctl get hpa -w
+
+#check cpu in node 
+kubectl describe node

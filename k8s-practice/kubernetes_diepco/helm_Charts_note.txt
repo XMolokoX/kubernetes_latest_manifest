@@ -1,0 +1,43 @@
+###########Install############
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 777 get_helm.sh
+./get_helm.sh
+
+helm version
+
+
+###########Add parameter for pull docker image###########
+
+
+##In ~/templates/deployment.yaml
+
+#Add for containers level
+spec:
+{{- if .Values.imagePullSecrets }}
+
+  imagePullSecrets:
+
+    - name: {{ .Values.imagePullSecrets }}
+
+{{- end }}
+
+
+##In ~/values.yaml
+
+#Add secret Name to imagePullSecrets
+imagePullSecrets: regcred <secret Name>
+
+
+
+
+
+
+###########################kubectl
+
+##delete pod
+k delete pod <podname> --force --grace-period=0
+
+##delete node
+ 
+

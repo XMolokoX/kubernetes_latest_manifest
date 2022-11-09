@@ -1,0 +1,20 @@
+#download source
+git clone https://github.com/FairwindsOps/goldilocks.git
+cd goldilocks/hack/manifests/
+
+#setup 
+kubectl create namespace goldilocks
+kubectl -n goldilocks apply -f ./controller
+kubectl -n goldilocks apply -f ./dashboard
+
+#set vpa mod in namespace default 
+kubectl label ns default goldilocks.fairwinds.com/enabled=true
+kubectl label ns default goldilocks.fairwinds.com/vpa-update-mode="off"
+
+
+--on-by-default - create VPAs in all namespaces
+--include-namespaces - create VPAs in these namespaces, in addition to any that are labeled
+--exclude-namespaces - when --on-by-default is set, exclude this comma-separated list of namespaces
+
+#export port to internet
+kubectl -n goldilocks port-forward --address 0.0.0.0 svc/goldilocks-dashboard 80

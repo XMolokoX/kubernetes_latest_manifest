@@ -1,0 +1,51 @@
+sudo yum -y update
+
+sudo yum -y install epel-release wget vim
+sudo yum -y install qemu-kvm virt-install virt-top libguestfs-tools bridge-utils
+sudo yum -y install libvirt
+
+sudo systemctl start libvirtd
+sudo systemctl enable libvirtd
+systemctl status libvirtd
+
+yum -y install yum-utils device-mapper-persistent-data lvm2; \
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo; \
+yum -y install docker-ce docker-ce-cli containerd.io; \
+systemctl enable docker; \
+systemctl start docker; \
+curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/bin/docker-compose; \
+chmod +x /usr/bin/docker-compose;
+
+useradd admin
+sudo usermod -a -G libvirt admin
+sudo usermod -aG docker admin
+sudo vi /etc/libvirt/libvirtd.conf
+
+Make sure that that the following lines are set with the prescribed values:
+unix_sock_group = "libvirt"
+unix_sock_rw_perms = "0770"
+
+sudo systemctl restart libvirtd.service
+
+wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube-linux-amd64
+sudo mv minikube-linux-amd64 /usr/local/bin/minikube
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+chmod +x kubectl
+sudo mv kubectl  /usr/local/bin/
+kubectl version --client -o json
+
+su admin
+minikube start
+
+if have a problem when you start minikube , minikube delete --all
+
+
+#show dashboard 
+minikube dasboard --url & 
+===> get  link and run next command , replace port by port in proxy 
+kubectl proxy --address=0.0.0.0 --accept-hosts='.*'
+===> access via port in proxy 
+
+

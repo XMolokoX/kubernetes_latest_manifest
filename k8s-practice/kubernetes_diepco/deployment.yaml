@@ -1,0 +1,77 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "{{ template "elasticsearch.name" .}}"
+  namespace: {{ template "elasticsearch.namespace" . }}
+  labels:
+    app: "{{ template "elasticsearch.name" .}}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ template "elasticsearch.name" .}}"
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  serviceName: "{{ template "elasticsearch.name" .}}"
+  replicas: {{.Values.elasticsearch.replicaCount}}
+  template:
+    metadata:
+      labels:
+        app: "{{ template "elasticsearch.name" .}}"
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      initContainers:
+      - name: init-myservice
+        image: busybox
+        command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+        securityContext:
+          privileged: true
+      containers:
+      - name: "{{ template "elasticsearch.name" .}}"
+        image: {{.Values.elasticsearch.image}}:{{.Values.elasticsearch.tag}}
+        imagePullPolicy: {{.Values.elasticsearch.pullPolicy}}
+        # env:
+        # - name: ELASTICSEARCH_SERVICE
+          # value: "{{ template "elasticsearch.data" .}}"
+        command: ["/bin/sh"]
+        args: ["-c", "cp -f /config/elasticsearch.yml /home/elasticsearch-6.5.4/config/; /home/elasticsearch-startup.sh"]
+        resources:
+{{ toYaml .Values.elasticsearch.resources | indent 10 }}
+        volumeMounts:
+        - mountPath: "{{.Values.elasticsearch.persistence.mountPath}}"
+          name: {{template "elasticsearch.data" . }}
+        - name: config-volume
+          mountPath: {{ .Values.elasticsearch.config.configFolder }}
+        livenessProbe:
+          tcpSocket:
+            port: {{.Values.elasticsearch.dataPort}}
+          initialDelaySeconds: {{.Values.elasticsearch.checkProbe.delaySeconds}}
+          periodSeconds: {{.Values.elasticsearch.checkProbe.periodSeconds}}
+          successThreshold: {{.Values.elasticsearch.checkProbe.successThreshold}}
+          timeoutSeconds: {{.Values.elasticsearch.checkProbe.timeoutSeconds}}
+        readinessProbe:
+          tcpSocket:
+            port: {{.Values.elasticsearch.dataPort}}
+          periodSeconds: {{.Values.elasticsearch.checkProbe.periodSeconds}}
+          successThreshold: {{.Values.elasticsearch.checkProbe.successThreshold}}
+          timeoutSeconds: {{.Values.elasticsearch.checkProbe.timeoutSeconds}}
+{{- if .Values.elasticsearch.privateRepo.enabled }}
+      imagePullSecrets:
+      - name: {{.Values.elasticsearch.privateRepo.pullSecrets}}
+{{- end }}
+      volumes:
+      - name: config-volume
+        configMap:
+          name: {{ template "elasticsearch.name" .}}
+{{- if .Values.elasticsearch.persistence.enabled }}
+  volumeClaimTemplates:
+  - metadata:
+      name: {{ template "elasticsearch.data" .}}
+      annotations:
+{{ toYaml .Values.elasticsearch.persistence.annotations | indent 8 }}
+    spec:
+      accessModes: [ "{{.Values.elasticsearch.persistence.accessModes}}" ]
+      resources:
+        requests:
+          storage: {{.Values.elasticsearch.persistence.storage}}
+{{- end}}

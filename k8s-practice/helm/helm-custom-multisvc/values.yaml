@@ -1,0 +1,12 @@
+name: FE
+port: 4200
+targetport: 4200
+IP: 10.0.0.178
+
+nameapi: BE
+portapi: 3000
+targetportapi: 3000
+
+portpost: 5432
+
+image: minhquan0107

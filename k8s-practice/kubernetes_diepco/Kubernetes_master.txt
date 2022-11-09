@@ -1,0 +1,154 @@
+yum update -y
+yum install -y yum-utils device-mapper-persistent-data lvm2 iptables vim wget telnet net-tools
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce -y
+
+hostnamectl set-hostname master
+IP=$(hostname -I)
+echo -e "$IP\tmaster" >> /etc/hosts
+
+mkdir /etc/docker
+
+vim /etc/docker/daemon.json {  "graph":"/home/docker",  "exec-opts": ["native.cgroupdriver=systemd"]}
+
+cat > /etc/docker/daemon.json <<EOF
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2",
+  "storage-opts": [
+    "overlay2.override_kernel_check=true"
+  ]
+}
+EOF
+
+systemctl enable docker.service
+systemctl daemon-reload
+systemctl restart docker
+
+setenforce 0
+sed -i 's/SELINUX=enforcing/SELINUX=disable/g' /etc/selinux/config
+
+update-alternatives --set iptables /usr/sbin/iptables-legacy
+
+firewall-cmd --zone=public --add-port=6443/tcp --permanent
+firewall-cmd --zone=public --add-port=2379-2380/tcp --permanent
+firewall-cmd --zone=public --add-port=10250/tcp --permanent
+firewall-cmd --zone=public --add-port=10251/tcp --permanent
+firewall-cmd --zone=public --add-port=10252/tcp --permanent
+firewall-cmd --zone=public --add-port=10255/tcp --permanent
+firewall-cmd --zone=public --add-port=10257/tcp --permanent
+firewall-cmd --zone=public --add-port=10259/tcp --permanent
+firewall-cmd --reload
+
+cat >>/etc/sysctl.d/kubernetes.conf<<EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+
+sysctl --system
+
+cat >>/etc/sysctl.d/99-sysctl.conf<<EOF
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward		   = 1
+net.bridge.bridge-nf-call-ip6tables= 1
+EOF
+
+sysctl --system
+
+sed -i '/swap/d' /etc/fstab
+swapoff -a
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+yum install -y kubelet kubectl kubeadm
+systemctl enable kubelet
+systemctl start kubelet
+
+
+# Pod Network allows nodes within the cluster to communicate.
+#This tutorial uses the flannel virtual network add-on for this purpose
+
+kubeadm init –-pod-network-cidr=10.244.0.0/16 -v=5
+
+#####issue if not run init command:
+#rm -rf /etc/kubernetes/manifests/kube-apiserver.yaml
+#rm -rf /etc/kubernetes/manifests/kube-controller-manager.yaml
+#rm -rf /etc/kubernetes/manifests/kube-scheduler.yaml
+#rm -rf /etc/kubernetes/manifests/etcd.yaml
+#echo "1" > /proc/sys/net/bridge/bridge-nf-call-iptables
+#iptables -F
+#
+
+#display cmd:
+#kubeadm join 192.168.28.144:6443 --token 82h8kv.6zr5dmslb07eybr0 \
+    --discovery-token-ca-cert-hash sha256:0bb72186fc6f8eb15becd022e0aef1510452bb0f3567c2bd4dd2866a1ebedbd9
+#
+#copy it paste to the node of kubernetes
+#
+#
+
+mkdir -p $HOME/.kube
+cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+chown $(id --u):$(id -g) $HOME/.kube/config
+
+#kubectl get nodes
+
+#When paste the kubeadm join ..../..etc... to the node kubernetes 
+#
+#run commandline: 
+#sudo kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+#kubectl get pod -n kube-system
+#kubectl get ns
+#kubectl get node
+##########################################END##################################
+openssl req -nodes -newkey rsa:2048 -keyout /root/kubernetes/certs/dashboard.key -out /root/kubernetes/certs/dashboard.csr -subj "/C=/ST=/L=/O=/OU=/CN=kubernetes-dashboard"
+openssl x509 -req -sha256 -days 365 -in /root/kubernetes/certs/dashboard.csr -signkey /root/kubernetes/certs/dashboard.key -out certs/dashboard.crt
+
+
+
+cat <<EOF > admin-user.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
+
+######deployment
+##create deployment:
+#vi deployment.yaml (...,etc,...)
+#kubectl apply -f deployment.yaml
+#kubectl expose deployment <deployment-name> --type=NodePort
+#kubectl get svc
+
+
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+#token
+eyJhbGciOiJSUzI1NiIsImtpZCI6Iks3NXNxRWJ0TVpqX1p2Ym12Rk5VZWFFUS04dlVUYzF1aVcwY0NkSTkyRzQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXJmbHg5Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIwNWY1MTIyYy0xZDg5LTRiM2EtOGQ3OS0wYjM5Mjc2NzZlYzUiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.Ba9V7k2_OPAc7jS3Xxz9ntgK_1bO48KYZxotEESfFBuaR98v_FfMWjGkRyImvjXhv_TZQplnQXdRAuol9sHtOn8eH_1F4jdr7VWLzMUNGTXVDk4wJ7XmIV2TZ5L12pTNJPw1AO1t5BHsmSTAiEV6hcAQ2m9PkabEN4atIFLK7IEv-8mJ-a7afQWJ1rBUb9FQw4YxUhx7bYZE01YWr7QROyF0cCOzyU0dN5tKETL2fOMUMAH51U1fAAzqidLw10DYBCQmywfbrR99vGtZTzR58PBi2KMHAv_X8uLMGDrorN5t8haTXZeHAwMT-WRuZVpD2DXdUB9ylLnAldSqF2o1Ig

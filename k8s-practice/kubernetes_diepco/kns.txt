@@ -1,0 +1,22 @@
+#!/bin/bash
+
+NameSpaces=$(kubectl get namespaces | awk '{if (NR!=1) {print}}' | awk '{print NR "."$1}')
+
+#Show all namespaces
+echo -e "\n=================================="
+echo ${NameSpaces} | tr ' ' '\n'
+echo "=================================="
+
+echo -ne "\nChoose a namespace: "
+read INPUT
+
+if [ -z $(echo ${NameSpaces} | tr ' ' '\n' | grep -w "$INPUT") ]
+then
+        echo -e "\nWRONG INPUT !\nNOTHING CHANGED !"
+        exit 0
+else
+        NameSpace=$(echo ${NameSpaces} | tr ' ' '\n' | grep -w "$INPUT" | cut -d"." -f2)
+
+        #Change NameSpace
+        kubectl config set-context --current --namespace=$NameSpace
+fi

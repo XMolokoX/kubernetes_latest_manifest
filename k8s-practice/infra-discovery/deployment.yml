@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: infra-discovery
+  labels:
+    env: dev
+    app: infra-discovery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: infra-discovery
+  template:
+    metadata:
+      labels:
+        app: infra-discovery
+    spec:
+      containers:
+      - name: infra-discovery
+        image: localhost:31320/infra-discovery:latest
+        imagePullPolicy: Always
+        ports:
+        - name: infra-discovery
+          containerPort: 8761
+          protocol: TCP
+        envFrom:
+        - configMapRef:
+            name: var
+        volumeMounts:
+        - mountPath: /home/config
+          name: config
+        - mountPath: /home/jar
+          name: jar
+      volumes:
+      - name: jar
+        hostPath:
+          # directory location on host
+          path: /home/deploy/infra-discovery/jar
+          # this field is optional
+          type: Directory
+      - name: config
+        hostPath:
+          # directory location on host
+          path: /home/deploy/infra-discovery/config
+          # this field is optional
+          type: Directory
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: infra-discovery
+spec:
+  selector:
+    app: infra-discovery
+  type: ClusterIP
+  externalIPs:
+  - 192.168.226.133
+  - 192.168.226.134
+  ports:
+  - port: 8761
+    targetPort: 8761
+    protocol: TCP
+    name: infra-discovery
+  selector:
+    app: infra-discovery

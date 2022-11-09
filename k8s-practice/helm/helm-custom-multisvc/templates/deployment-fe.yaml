@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.name }}
+  labels:
+    {{- include "test.labels" . | indent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "test.labels" . | indent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "test.labels" . | indent 8 }}
+    spec:
+      containers:
+      - name: {{ .Values.name }}
+        image: {{ .Values.image }}/fe:latest
+        imagePullPolicy: Always
+        ports:
+        - name: {{ .Values.name }}
+          containerPort: {{ .Values.targetport }}
+          protocol: TCP
+        readinessProbe:
+          tcpSocket:
+            port: {{ .Values.targetport }}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: {{ .Values.targetport }}
+          initialDelaySeconds: 30
+          periodSeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0

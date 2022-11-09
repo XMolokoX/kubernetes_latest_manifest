@@ -1,0 +1,2 @@
+- pods can run only one 
+- deployment manages multi pods and can define replica number

@@ -1,0 +1,23 @@
+#install helm
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 777 get_helm.sh
+./get_helm.sh
+
+helm version
+
+#clone github source of KubeInvades:
+#
+#https://github.com/lucky-sideburn/KubeInvaders
+#
+#
+cd /KubeInvaders-master/helm-charts/kubeinvaders
+#
+#edit value.yaml
+#
+#Change service type "ClusterIP" to "NodePort"
+#Change target_namespace "XXX" to "kubeinvaders"
+#
+#
+#
+#
+helm install kubeinvaders . -f values.yaml

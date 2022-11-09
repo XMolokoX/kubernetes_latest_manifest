@@ -1,0 +1,17 @@
+#create new folder 
+
+#package
+helm package ./<chart-folder> -d ./<new-folder>
+
+#create file index
+helm repo index ./<dir>
+
+#git init
+#git remote
+#git push
+
+#after push , add repo to local
+helm repo add <reponame> https://raw.githubusercontent.com/<repo>/charts/<branch>
+
+#install
+helm install <reponame> <reponame>/<service>

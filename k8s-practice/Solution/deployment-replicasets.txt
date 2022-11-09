@@ -1,0 +1,2 @@
+- A ReplicaSet ensures that a number of Pods is created in a cluster. But changing the ReplicaSet will not take effect on existing Pods .
+- A deployment is a higher abstraction that manages one or more ReplicaSets to provide controlled rollout of a new version . 
