@@ -1,0 +1,10 @@
+control plane :
+- API : 6443
+- etcd : 2379-2380
+- scheduler : 10251
+- controller manager : 10252
+- kubelet : 10250
+
+Node:
+- kubelet : 10250
+- Nodeport: 30000-32767

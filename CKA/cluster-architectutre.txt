@@ -1,0 +1,25 @@
+- Master : manage , plan , schedule (controlplane) 
+=> inlcude: etcd , scheduler, controller manager , APIserver
+
+- Worker : host application as Containers
+- ETCD cluster : database store info in a key-value format
+port 2379 by default
+ 
+- kube-scheduler : ship a container into node (assign pod to node)
+it will filter and rank node
+
+- controller-manager : will control , manage nodes ,...
+watch status ( monitor node ) , remediate situation
+
+- kube-api will be the communication between components
+authenticate user -> validate request -> retrieve data -> update ETCD -> scheduler ->kubelet 
+
+- kube-proxy will help to communicate to outside or inside
+
+- kubelet : all action in node
+create pods in node
+register node
+monitor Pod,node
+
+
+
