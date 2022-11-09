@@ -1,0 +1,55 @@
+- namespace can limit resources by creating kind ResourceQuota
+--dry-run=server : By default as soon as the command is run, the resource will be created. If you simply want to test your command
+--dry-run=client option. This will not create the resource, instead, tell you whether the resource can be created and if your command is right.
+-o yaml: This will output the resource definition in YAML format on screen.
+--------
+
+-Taint and Toleration are used to set restriction on what pods can be scheduled:
+Taint : will prevent pod can schedule to a pod which you dont want to schedule
+Toleration : can specify the place that pod will be schedule to (not except taint mode)
+
+- Node selector :  is a feature that enables administrators to match pods according to the labels on nodes.
+- Node Affinity : as same as Node Selector but it has more control over
+
+-------
+OOMKilled : indicates that it is failing because the pod ran out of memory 
+DaemontSet is as same as replica set but it will bring one copy of your pod on each node 
+
+
+------
+Static PODs : you will create PODS but you won't use kubelet call API
+=> you will create PODs definition files then put into /etc/kubernetes/manifests => it will create PODS base on your file (only PODs)
+=> it depend on where pod file store in which node 
+=> use case for control plane components
+
+
+-------
+Pods : ephemeral - noPod is ever "redeployed"
+Performance K8S node : increase CPU,RAM or numerous server 
+K8s use containerd instead of dockerd due to containerd is lighter than dockerd, it will decrease component will run on node
+
+-------
+Networking :
+- Pods on a node can communicate with all Pods on all Nodes without NAT
+- Agents on a Node can communicate with allPods on thatNode
+
+========
+one env / one namespace
+
+if you want to check which cluster => kubectl cluster-info
+if you want to check api resources => kubectl api-resources | more (namespaced true(in namespaces)/false(resources clsuter))
+use this command:
+kubectl config get-contexts => check which cluster
+kubectl config use-contexts => switch cluster
+
+
+-------
+app deployment in K8S :
++ imperative (use command)
++ declarative (define your desired state in code Manifest YAML or JSON)
+
+-------
+Create replica in deployment => pod identify => pod template hash + replica identify
+
+
+
