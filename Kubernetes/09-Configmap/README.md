@@ -1,6 +1,8 @@
 # ConfigMap
 - ConfigMaps are used to inject key-value pair non-sensitive information like configuration files, scripts etc.,
 - ConfigMaps are stored within a given namespace and can only be accessed by pods within the same namespace.
+- You can automatic synchronize configuration across namespaces by using config-syncer:
+https://github.com/kubeops/config-syncer/blob/master/docs/guides/config-syncer/intra-cluster.md
 
 ```
 Syntax:
