@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{template "elasticsearch.data" . }}
+  namespace: {{ template "elasticsearch.namespace" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  type: {{.Values.elasticsearch.dataType}}
+  ports:
+  - port: {{ .Values.elasticsearch.dataPort}}
+    targetPort: {{ .Values.elasticsearch.dataPort}}
+    protocol: TCP
+    name: {{template "elasticsearch.data" . }}
+  selector:
+    app: "{{ template "elasticsearch.name" .}}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{template "elasticsearch.client" . }}
+  namespace: {{ template "elasticsearch.namespace" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  type: {{.Values.elasticsearch.clientType}}
+  ports:
+  - port: {{ .Values.elasticsearch.clientPort}}
+    targetPort: {{ .Values.elasticsearch.clientPort}}
+    {{if (and (eq .Values.elasticsearch.clientType "NodePort") (not (empty .Values.elasticsearch.nodePort)))}}
+    nodePort: {{ .Values.elasticsearch.nodePort}}
+    {{end}}
+    protocol: TCP
+    name: {{template "elasticsearch.client" . }}
+  selector:
+    app: "{{ template "elasticsearch.name" .}}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"

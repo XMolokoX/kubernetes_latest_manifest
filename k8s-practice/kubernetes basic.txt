@@ -1,0 +1,107 @@
+#check version
+minikube version
+kubectl version
+
+#help option 
+minikube help
+
+#start cluster
+minikube start
+
+#show nodes is avalable
+kubectl get nodes
+kubectl describe nodes <name>
+
+#show all pods
+kubectl get pods -A
+kubectl describe --namespace=
+
+#create namespace
+kubectl get namespace
+kubectl create namespace <name>
+kubectl config set-context --current --namespace=<name>
+
+#create deployment 
+kubectl create deployment <name> --image=....
+kubectl delete deployment <name>
+
+#check deployments
+kubectl get deployments
+
+#starting kuberlet proxy to can connect from outside 
+kubectl proxy
+
+#command with pod
+kubectl get - list resources
+kubectl describe - show detailed information about a resource
+kubectl logs - print the logs from a container in a pod
+kubectl exec - execute a command on a container in a pod 
+exp : kubectl exec --stdin --tty shell-demo -- /bin/bash
+kubectl exec -i -t my-pod --container main-app -- /bin/bash
+
+#About Pod
+NAME lists the names of the Deployments in the cluster.
+READY shows the ratio of CURRENT/DESIRED replicas
+UP-TO-DATE displays the number of replicas that have been updated to achieve the desired state.
+AVAILABLE displays how many replicas of the application are available to your users.
+AGE displays the amount of time that the application has been running.
+
+#command with services 
+kubectl get services
+kubectl describe services/<name>
+kubectl delete service -l run=<name>
+
+#expose deployment into service
+kubectl expose deployment/<name> --type="NodePort" --port 8080
+
+#To see the ReplicaSet created by the Deployment, run :
+kubectl get rs
+-DESIRED displays the desired number of replicas of the application, which you define when you create the Deployment. This is the desired state.
+-CURRENT displays how many replicas are currently running.
+
+#scale
+kubectl scale deployments/<name> --replicas=4
+
+#check number of pod changes:
+kubectl get pods -o wide
+
+#set new images
+kubectl set image deployments/<name> <new image>
+
+#update can be confirmed also by running a rollout status command:
+kubectl rollout status deployments/<name>
+
+#Let’s roll back to our previously working version. We’ll use the rollout undo command:
+kubectl rollout undo deployments/<name>
+
+#Apply the kustomization directory to create both the ConfigMap and Pod objects:
+kubectl apply -k .
+kubectl apply -f ....
+
+#Show configMap and Pod objects:
+kubectl get -k .
+
+#Delete the created pod:
+kubectl delete pod redis
+
+#check url:
+minikube service frontend --url
+kubectl get service frontend
+
+#create configmap
+kubectl create configmap <name> --from-file=<file>
+kubectl describe configmaps <name>
+
+
+#NAT
+network address translation
+#Source NAT
+replacing the source IP on a packet; in this page, that usually means replacing with the IP address of a node.
+#Destination NAT
+replacing the destination IP on a packet; in this page, that usually means replacing with the IP address of a Pod
+#VIP
+a virtual IP address, such as the one assigned to every Service in Kubernetes
+#kube-proxy
+a network daemon that orchestrates Service VIP management on every node
+
+

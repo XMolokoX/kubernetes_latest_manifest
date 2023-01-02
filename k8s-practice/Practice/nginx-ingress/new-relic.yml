@@ -1,0 +1,13 @@
+global:
+  licenseKey: 46e0ac409da86d083a909671ac2209df74a6NRAL
+  cluster: lab3aks
+kubeEvents:
+  enabled: true
+webhook:
+  enabled: true
+prometheus:
+  enabled: true
+logging:
+  enabled: true
+ksm:
+  enabled: true

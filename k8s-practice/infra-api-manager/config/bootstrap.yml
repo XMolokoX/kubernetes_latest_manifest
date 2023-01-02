@@ -1,0 +1,15 @@
+server:
+  port: 2407
+  ssl:
+    enabled: false
+    key-store-type: PKCS12
+    key-store: /home/config/ssl_config/keystore
+    key-alias: ife
+    key-store-password: P@ssW0rd
+    key-password: P@ssW0rd
+    protocol: TLS
+    enabled-protocols: TLSv1.2
+    ciphers: TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+spring:
+  application:
+    name: api-management

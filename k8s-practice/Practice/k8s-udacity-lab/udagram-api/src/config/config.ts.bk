@@ -1,0 +1,14 @@
+export const config = {
+  'username': 'postgres',
+  'password': 'password123',
+  'database': 'postgres',
+  'host': 'database-lab3.c2uto6xitgec-a51ss.us-west-2.rds.amazonaws.com',
+  'dialect': 'postgres',
+  'aws_region': 'us-east-2',
+  'aws_profile': 'default',
+  'aws_media_bucket': 'arn:aws:s3:::lab3-quantm20',
+  'url': 'http://localhost:8100',
+  'jwt': {
+    'secret': process.env.JWT_SECRET,
+  },
+};

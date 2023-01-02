@@ -1,0 +1,40 @@
+language: node_js
+node_js:
+  - 13
+
+services:
+  - docker
+
+# Pre-testing installs
+install:
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+  - chmod +x ./kubectl
+  - sudo mv ./kubectl /usr/local/bin/kubectl
+  - mkdir ${HOME}/.kube
+  - echo "$KUBE_CONFIG" | base64 --decode > ${HOME}/.kube/config
+
+# Scripts to be run such as tests
+before_script:
+  - echo "no tests"
+
+script:
+  - docker --version # print the version for logging
+  # - docker build -t udagram-api-feed ./udagram-api-feed
+  # - docker tag udagram-api-feed minhquan0107/udagram-api-feed:latest
+  # - docker build -t udagram-api-user ./udagram-api-user
+  # - docker tag udagram-api-user minhquan0107/udagram-api-user:latest
+  - docker build -t udagram-frontend ./udagram-frontend
+  - docker tag udagram-frontend minhquan0107/udagram-frontend:latest
+  # - docker build -t udagram-reverseproxy ./udagram-reverseproxy
+  # - docker tag udagram-reverseproxy minhquan0107/udagram-reverseproxy:latest
+
+
+# Tasks to perform after the process is successful. Formatting the Docker username and password as below enables you to programmatically log in without having the password exposed in logs.
+after_success:
+  - echo "$pass" | docker login -u "$user" --password-stdin
+  # - docker push minhquan0107/udagram-api-feed
+  # - docker push minhquan0107/udagram-api-user
+  - docker push minhquan0107/udagram-frontend
+  # - docker push minhquan0107/udagram-reverseproxy
+ 
+  

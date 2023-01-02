@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-feed
+  labels:
+    env: dev
+    app: backend-feed
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-feed
+  template:
+    metadata:
+      labels:
+        app: backend-feed
+    spec:
+      containers:
+      - name: backend-feed
+        image: minhquan0107/udagram-api-feed:latest
+        imagePullPolicy: Always
+        ports:
+        - name: backend-feed
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+        envFrom:
+        - configMapRef:
+            name: lab3      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-feed
+spec:
+  selector:
+    app: backend-feed
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: backend-feed
+  selector:
+    app: backend-feed

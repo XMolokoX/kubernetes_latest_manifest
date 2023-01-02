@@ -1,0 +1,13 @@
+name: fe
+port: 4200
+targetport: 4200
+IP: 10.0.0.178
+
+nameapi: be
+portapi: 3000
+targetportapi: 3000
+
+portpost: 5432
+
+image: minhquan0107
+tag: "20220517"

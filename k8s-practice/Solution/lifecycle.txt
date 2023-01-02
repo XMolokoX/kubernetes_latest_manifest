@@ -1,0 +1,5 @@
+pending : one or more container has not been setup and made ready to run
+running : at least one container is still running 
+succeeded : all cons in pod have terminated in success
+failed : All containers in the Pod have terminated, and at least one container has terminated in failure
+unknow : this phase due to an error in communicating with the node where pod should be running

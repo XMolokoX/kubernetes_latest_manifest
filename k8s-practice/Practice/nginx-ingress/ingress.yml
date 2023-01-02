@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/add-base-url: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - backend.lab3minhquan.com
+    secretName: backend-tls
+  - hosts:
+    - frontend.lab3minhquan.com
+    secretName: frontend-tls
+  - hosts:
+    - phppgadmin.lab3minhquan.com
+    secretName: php-tls
+  rules:
+    - host: phppgadmin.lab3minhquan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: phppgadmin
+                port:
+                  number: 8080
+    - host: backend.lab3minhquan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: be
+                port:
+                  number: 3000
+    - host: frontend.lab3minhquan.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fe
+                port:
+                  number: 80

@@ -1,0 +1,4 @@
+name: infra-api-manager
+port: 2407
+targetport: 2407
+IP: 192.168.226.132

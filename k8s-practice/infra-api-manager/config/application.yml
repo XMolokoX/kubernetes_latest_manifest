@@ -1,0 +1,181 @@
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+zuul:
+  RibbonRoutingFilter:
+    route:
+      disable: false
+  ignoredServices: "*"
+  routes:
+    access-group-service:
+      path: /access-groups/**
+      sensitive-headers: Cookie, Set-Cookie
+      service-id: account-management
+      strip-prefix: false
+    access-right-service:
+      path: /access-rights/**
+      sensitive-headers: Cookie, Set-Cookie
+      service-id: account-management
+      strip-prefix: false
+    contacts-service:
+      path: /contacts/**
+      sensitiveHeaders: Cookie, Set-Cookie
+      service-id: contact-management
+      strip-prefix: false
+    clients-service:
+      path: /clients/**
+      sensitiveHeaders: Cookie, Set-Cookie
+      service-id: account-management
+      strip-prefix: false
+    accounts-service:
+      path: /accounts/**
+      sensitive-headers: Cookie, Set-Cookie
+      service-id: account-management
+      strip-prefix: false
+    policies-service:
+      path: /policys/**
+      sensitive-headers: Cookie, Set-Cookie
+      service-id: account-management
+      strip-prefix: false
+    fnas-service:
+      path: /fnas/**
+      sensitive-headers: Cookie, Set-Cookie
+      service-id: fna-management
+      strip-prefix: false
+    prints-service:
+      path: /prints/**
+      sensitive-headers: Cookie, Set-Cookie
+      service-id: print-management
+      strip-prefix: false
+    cases-service:
+      path: /cases/**
+      service-id: case-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    managerreviews-service:
+      path: /managerreviews/**
+      service-id: managerreview-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    quotations-service:
+      path: /quotations/**
+      service-id: quotation-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    applications-service:
+      path: /applications/**
+      service-id: application-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    utilities-service:
+      path: /utilities/**
+      service-id: utility-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    document-center-service:
+      path: /attachments/**
+      service-id: document-center-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    static-document-center:
+      path: /documents/**
+      service-id: document-center-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    otp-service:
+      path: /otp/**
+      service-id: otp-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    vpms-server-service:
+      path: /vpms/v1/rest/exec/9130
+      url: ${VPMS_URL}
+    underwriting-service:
+      path: /underwritings/**
+      service-id: underwriting-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    integration-service:
+      path: /integrations/**
+      service-id: integration-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    notification-service:
+      path: /notifications/**
+      service-id: notification-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    auditors-service:
+      path: /auditors/**
+      service-id: auditor-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    payments-service:
+      path: /transactions/**
+      service-id: payment-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    submissions-service:
+      path: /submissions/**
+      service-id: submission-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    auditlogs-service:
+      path: /audit-logs/**
+      service-id: account-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    claims-service:
+      path: /claims/**
+      service-id: claim-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    requote-service:
+      path: /requotes/**
+      service-id: requote-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+    batch-service:
+      path: /batch/**
+      service-id: batch-management
+      sensitive-headers: Cookie, Set-Cookie
+      strip-prefix: false
+# Increase the Hystrix timeout to 60s (globally)
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+ribbon:
+  ReadTimeout: 100000
+  ConnectTimeout: 100000
+eureka:
+  instance:
+    hostname: infra-api-manager
+
+  client:
+    service-url:
+      defaultZone: http://infra-discovery:8761/eureka/
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.web: DEBUG
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+
+landing:
+  page:
+    url: ${PROXY_URL}/AgencySales/workspace

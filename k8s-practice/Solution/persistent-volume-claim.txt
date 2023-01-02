@@ -1,0 +1,2 @@
+- persistent volume (PV) is physical volume on the host machine that stores your persistent data. 
+- A persistent volume claim (PVC) is a request for the platform to create a PV for you, and you attach PVs to your pods via a PVC

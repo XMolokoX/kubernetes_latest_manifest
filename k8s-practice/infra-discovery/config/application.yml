@@ -1,0 +1,21 @@
+server:
+  port: 8761
+  ssl:
+    enabled: false
+    key-store: classpath:ssl_config/discovery_keystore
+    key-alias: discovery
+    key-store-password: changeit
+    key-password: changeit
+security:
+  user:
+    password: ${eureka.password} # Don't use a default password in a real app
+
+eureka:
+  instance:
+    hostname: infra-discovery
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+  password: ${SECURITY_USER_PASSWORD:password}

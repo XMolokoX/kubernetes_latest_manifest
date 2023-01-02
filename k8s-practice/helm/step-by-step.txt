@@ -1,0 +1,10 @@
+-know how to use helm : done
+-apply helm to create a service : done
+-know how to prepare multi values files for multi env : done
+-create secret for helm : done
+-create loop for helm : done 
+-create locally repo : done
+-apply to project :
+option 1 : deploy a service / chart : done
+option 2 : deploy depency / chart : done 
+option 3 : deploy multi files deploy and service in templates : done  

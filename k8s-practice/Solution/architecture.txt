@@ -1,0 +1,18 @@
+Orchestration is the automated management of the lifecycle of our application
+
+K8S ARCHITECT : 
+- Nodes
+- Pods
+- Image Registry
+
+K8S Control plan Component:
+- kube-apiserver
+- etcd
+- kube-scheduler
+- kube controller-manager
+
+
+K8S node component:
+- kubelet
+- kube-proxy
+- container runtime

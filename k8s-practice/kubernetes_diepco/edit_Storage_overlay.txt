@@ -1,0 +1,14 @@
+systemctl stop docker
+vi /usr/lib/systemd/system/docker.service
+##ExecStart=/usr/bin/dockerd -g /home/docker/dir -H fd://
+mkdir /backup
+cp -r /home/* /backup
+rm -rf /home/*
+umount /home
+mkfs.xfs -fn ftype=1 /dev/mapper/centos-home
+mount /dev/mapper/centos-home /home
+df -Th
+systemctl daemon-reload
+systemctl restart
+
+/usr/sbin/setsebool httpd_can_network_connect 1

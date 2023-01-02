@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: fe2
+  labels:
+    name: fe2
+spec:
+  containers:
+  - name: fe2
+    image: minhquan0107/test
+    ports:
+    - containerPort: 3000
+      name: http
+      protocol: TCP
+---

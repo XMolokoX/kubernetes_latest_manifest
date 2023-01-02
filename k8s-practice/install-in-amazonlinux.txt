@@ -1,0 +1,1 @@
+https://serveanswer.com/questions/how-to-install-kubernetes-in-amazon-linux-2-ami

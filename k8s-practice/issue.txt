@@ -1,0 +1,34 @@
+#nodes get not ready 
+adding a file in : /etc/systemd/system/kubelet.service.d/11-cgroups.conf
+
+with:
+[Service]
+CPUAccounting=true
+MemoryAccounting=true
+
+and:
+systemctl daemon-reload
+systemctl restart kubelet
+
+
+
+#cannot pull image in minikube
+=> can not to stop firewald 
+
+#check log 
+kubectl describe -n [NAMESPACE_NAME] pod [POD_NAME] > /tmp/runbooks_describe_pod.txt
+kubectl logs private-repository-k8s-686564966d-szxll --all-containers=true > runbooks_pod_logs.txt
+kubectl logs counter
+kubectl logs counter -f
+kubectl logs counter --since-time=2020-05-10T09:00:00Z
+
+#remove spaces when create configmap
+sed -i -E 's/([[:space:]]|\r)+$//g' var.properties 
+
+#meet issue when excute on 1 node
+kubectl taint nodes <node-name> node-role.kubernetes.io/master-
+
+#Restore and backup iN K8S on-premise
+-use ectdctl to backup and restore resources
+https://viblo.asia/p/k8s-phan-19-backup-va-restore-etcd-tren-k8s-gwd43B8MVX9
+

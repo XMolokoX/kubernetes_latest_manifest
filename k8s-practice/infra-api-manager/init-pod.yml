@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: infra-api-manager
+  labels:
+    env: dev
+    app: infra-api-manager
+spec:
+  initContainers:
+    - name: init-infra-api-manager
+      image: localhost:31320/api-manager-config
+      command: [bash, -c]
+      args: ["cp -r /config/* /data"]
+      imagePullPolicy: Always
+      volumeMounts:
+      - mountPath: /data
+        name: cache-volume
+  containers:
+    - name: infra-api-manager
+      image: localhost:31320/infra-api-manager
+      ports:
+        - name: api-manager
+          containerPort: 2407
+          protocol: TCP
+      envFrom:
+      - configMapRef:
+          name: ife-config
+      volumeMounts:
+      - mountPath: /home/config
+        name: cache-volume
+        readOnly: true
+  volumes:
+  - name: cache-volume
+    emptyDir: {}

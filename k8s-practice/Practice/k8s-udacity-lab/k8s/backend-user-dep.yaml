@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-user
+  labels:
+    env: dev
+    app: backend-user
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend-user
+  template:
+    metadata:
+      labels:
+        app: backend-user
+    spec:
+      containers:
+      - name: backend-user
+        image: minhquan0107/udagram-api-user:latest
+        imagePullPolicy: Always
+        ports:
+        - name: backend-user
+          containerPort: 8080
+          protocol: TCP
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+        envFrom:
+        - configMapRef:
+            name: lab3      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-user
+spec:
+  selector:
+    app: backend-user
+  type: ClusterIP
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: backend-user
+  selector:
+    app: backend-user

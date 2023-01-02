@@ -1,0 +1,13 @@
+#setup metric server first
+
+#Download and Deploy the Vertical Pod Autoscaler
+
+git clone -b vpa-release-0.8 https://github.com/kubernetes/autoscaler.git
+
+cd autoscaler/vertical-pod-autoscaler
+
+./hack/vpa-up.sh ( start )
+
+kubectl get pods -n kube-system
+
+./hack/vpa-down.sh ( stop )

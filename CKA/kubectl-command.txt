@@ -1,0 +1,2 @@
+- diff : 
+=> generates the difference between resources running in the cluster and resources defined in a manifest

@@ -1,0 +1,26 @@
+#install nfs in manager and worker 
+
+#create folder cert and mount from manager to worker
+mkdir /opt/certs /opt/registry
+mount 192.168.1.40:/opt/certs /opt/certs
+mount 192.168.1.40:/opt/registry /opt/registry
+
+#generate key
+cd /opt 
+sudo openssl req -newkey rsa:4096 -nodes -sha256 -keyout ./certs/registry.key -x509 -days 365 -out ./certs/registry.crt
+
+#please input commonname by localhost
+
+#apply private-registry.yaml && private-registry-svc.yaml
+kubectl create -f private-registry.yaml
+kubectl create -f private-registry-svc.yaml
+
+#in worker update-ca-trsut
+cp /opt/certs/registry.crt /etc/pki/ca-trust/source/anchors/
+update-ca-trust
+systemctl restart docker
+
+#pull image and tag image
+$ sudo docker pull nginx
+$ sudo docker tag nginx:latest localhost:31320/nginx:1.17
+$ sudo docker push localhost:31320/nginx:1.17

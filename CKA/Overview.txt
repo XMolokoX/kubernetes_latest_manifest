@@ -1,0 +1,15 @@
+- benefit :
+speed of deployment
+ability to absord change quickly
+ability to recover quicly
+hide complexity in the cluster
+
+
+- principles
+desired state
+controllers
+K8S API 
+=> object : pods , controllers , services , storage
+
+
+  
