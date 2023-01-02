@@ -66,3 +66,5 @@ kubectl create clusterrolebinding kube-proxy-binding --clusterrole=system:node-p
 
 
 Reference: https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+https://travis.media/clusterrolebinding-with-service-account-all-namespaces/
+https://devopscube.com/kubernetes-api-access-service-account/
