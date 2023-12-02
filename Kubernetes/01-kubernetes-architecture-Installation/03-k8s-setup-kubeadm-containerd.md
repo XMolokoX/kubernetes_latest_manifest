@@ -63,10 +63,11 @@ sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.t
 systemctl restart containerd
 
 # To execute crictl CLI commands, ensure we create a configuration file as mentioned below
-cat /etc/crictl.yaml
+cat > /etc/crictl.yaml <<EOF
 runtime-endpoint: unix:///run/containerd/containerd.sock
 image-endpoint: unix:///run/containerd/containerd.sock
 timeout: 2
+EOF
 ```
 
 - Install kubernetes packages on all nodes.
@@ -108,6 +109,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 - calico network for kubernetes CNI
+- [Calico Document](https://projectcalico.docs.tigera.io/getting-started/kubernetes/quickstart)
 ```
 kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
 wget https://docs.projectcalico.org/manifests/custom-resources.yaml
